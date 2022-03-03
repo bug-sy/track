@@ -8,6 +8,15 @@ module.exports = async function () {
   TrackPlayer.addEventListener('remote-pause', () => {
     TrackPlayer.pause();
   });
+  TrackPlayer.addEventListener('remote-next', async () => {
+    console.log('-----> next song');
+    await TrackPlayer.skipToNext();
+  });
+
+  TrackPlayer.addEventListener('remote-previous', async () => {
+    console.log('-----> prev song');
+    await TrackPlayer.skipToPrevious();
+  });
 
   TrackPlayer.addEventListener('remote-jump-forward', async () => {
     let newPosition = await TrackPlayer.getPosition();
@@ -16,6 +25,11 @@ module.exports = async function () {
     if (newPosition > duration) {
       newPosition = duration;
     }
+    console.log(newPosition, '----->', duration, newPosition > duration);
+
+    let trackIndex = await TrackPlayer.getCurrentTrack();
+    let trackObject = await TrackPlayer.getTrack(trackIndex);
+    console.log(`Title: ${trackObject.title}`);
     TrackPlayer.seekTo(newPosition);
   });
 

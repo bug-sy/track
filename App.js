@@ -30,38 +30,67 @@ import TrackPlayer, {Capability} from 'react-native-track-player';
 import {useProgress} from 'react-native-track-player/lib/hooks';
 import Slider from '@react-native-community/slider';
 
-const trackPlayerInit = async () => {
-  await TrackPlayer.setupPlayer();
-
-  TrackPlayer.updateOptions({
-    capabilities: [
-      Capability.Play,
-      Capability.Pause,
-      Capability.JumpBackward,
-      Capability.JumpForward,
-    ],
-  });
-
-  await TrackPlayer.add({
+let trackAvail = [
+  {
     id: '1',
-    url: 'https://audio-previews.elements.envatousercontent.com/files/103682271/preview.mp3',
+    url: require('./audio/GAMR24A-epic-cinematic-fight-trailer.mp3'),
+    title: 'Raindrops on window sill',
+    artist: '',
+    artwork: 'https://picsum.photos/id/10/200/300',
+    album: 'Chosic',
+    duration: 66,
+  },
+  {
+    id: '2',
+    url: require('./audio/HTUVQJS-cinematic-epic-trailer.mp3'),
     type: 'default',
     title: 'My Title',
     album: 'My Album',
     artist: 'Rakesh Sahu',
     artwork: 'https://picsum.photos/100',
+    duration: 178,
+  },
+  {
+    id: '3',
+    url: 'https://audio-previews.elements.envatousercontent.com/files/103682271/preview.mp3',
+    type: 'defaultd',
+    title: 'My Titled',
+    album: 'My Albumd',
+    artist: 'Rakesh Sahud',
+    artwork: 'https://picsum.photos/id/10/200/300',
+    duration: 66,
+  },
+  {
+    id: '4',
+    url: 'https://audio-previews.elements.envatousercontent.com/files/103682271/preview.mp3',
+    type: 'defaultd',
+    title: 'My ed',
+    album: 'My Albumd',
+    artist: 'Rakesh Sahud',
+    artwork: 'https://picsum.photos/id/10/200/300',
+    duration: 66,
+  },
+];
+
+const trackPlayerInit = async () => {
+  await TrackPlayer.setupPlayer();
+
+  await TrackPlayer.updateOptions({
+    capabilities: [
+      Capability.Play,
+      Capability.Pause,
+      Capability.JumpBackward,
+      Capability.JumpForward,
+      Capability.SkipToNext,
+      Capability.SkipToPrevious,
+    ],
   });
 
+  await TrackPlayer.add(trackAvail);
   return true;
 };
 
 const App = () => {
-  useEffect(() => {
-    if (!isSeeking && position && duration) {
-      setSliderValue(position / duration);
-    }
-  }, [position, duration]);
-
   const [isTrackPlayerInit, setIsTrackPlayerInit] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -78,6 +107,10 @@ const App = () => {
     const startPlayer = async () => {
       let isInit = await trackPlayerInit();
       setIsTrackPlayerInit(isInit);
+
+      // let trackIndex = await TrackPlayer.getCurrentTrack();
+      // let trackObject = await TrackPlayer.getTrack(trackIndex);
+      // console.log(`Title: ${trackObject.title}`);
     };
     startPlayer();
   }, []);
@@ -109,14 +142,26 @@ const App = () => {
     setIsSeeking(false);
   };
 
+  const skipNext = async () => {
+    await TrackPlayer.skipToNext();
+    // console.log('Next');
+  };
+
+  const skipPrev = async () => {
+    await TrackPlayer.skipToPrevious();
+    // console.log('Prev');
+  };
+
   return (
     <View style={{marginTop: 200}}>
-      <Text>Music Player</Text>
-      <Button
-        title={isPlaying ? 'Pause' : 'Play'}
-        onPress={onButtonPressed}
-        disabled={!isTrackPlayerInit}
-      />
+      <Text style={{textAlign: 'center', marginBottom: 10}}>Music Player</Text>
+      <View style={{marginHorizontal: 20}}>
+        <Button
+          title={isPlaying ? 'Pause' : 'Play'}
+          onPress={onButtonPressed}
+          disabled={!isTrackPlayerInit}
+        />
+      </View>
       {/* defining our slider here */}
       <Slider
         style={{width: 400, height: 40}}
@@ -128,6 +173,15 @@ const App = () => {
         onSlidingStart={slidingStarted}
         onSlidingComplete={slidingCompleted}
       />
+      <View
+        style={{
+          flexDirection: 'row',
+          marginHorizontal: 25,
+          justifyContent: 'space-around',
+        }}>
+        <Button onPress={skipPrev} title={'Prev'} />
+        <Button onPress={skipNext} title={'Next'} />
+      </View>
     </View>
   );
 };
