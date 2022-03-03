@@ -29,6 +29,7 @@ import {Text, Button, View} from 'react-native';
 import TrackPlayer, {Capability} from 'react-native-track-player';
 import {useProgress} from 'react-native-track-player/lib/hooks';
 import Slider from '@react-native-community/slider';
+import SoundCloudWaveform from 'react-native-soundcloud-waveform';
 
 let trackAvail = [
   {

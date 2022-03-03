@@ -1,24 +1,24 @@
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {Event} from 'react-native-track-player';
 
 module.exports = async function () {
-  TrackPlayer.addEventListener('remote-play', () => {
+  TrackPlayer.addEventListener(Event.RemotePlay, () => {
     TrackPlayer.play();
   });
 
-  TrackPlayer.addEventListener('remote-pause', () => {
+  TrackPlayer.addEventListener(Event.RemotePause, () => {
     TrackPlayer.pause();
   });
-  TrackPlayer.addEventListener('remote-next', async () => {
+  TrackPlayer.addEventListener(Event.RemoteNext, async () => {
     console.log('-----> next song');
     await TrackPlayer.skipToNext();
   });
 
-  TrackPlayer.addEventListener('remote-previous', async () => {
+  TrackPlayer.addEventListener(Event.RemotePrevious, async () => {
     console.log('-----> prev song');
     await TrackPlayer.skipToPrevious();
   });
 
-  TrackPlayer.addEventListener('remote-jump-forward', async () => {
+  TrackPlayer.addEventListener(Event.RemoteJumpForward, async () => {
     let newPosition = await TrackPlayer.getPosition();
     let duration = await TrackPlayer.getDuration();
     newPosition += 10;
@@ -33,7 +33,7 @@ module.exports = async function () {
     TrackPlayer.seekTo(newPosition);
   });
 
-  TrackPlayer.addEventListener('remote-jump-backward', async () => {
+  TrackPlayer.addEventListener(Event.RemoteJumpBackward, async () => {
     let newPosition = await TrackPlayer.getPosition();
     newPosition -= 10;
     if (newPosition < 0) {

@@ -13,6 +13,7 @@
     "@react-native-community/slider": "^4.2.0",
     "react": "17.0.2",
     "react-native": "0.67.3",
+    "react-native-soundcloud-waveform": "^1.0.3",
     "react-native-swift": "^1.2.3",
     "react-native-track-player": "^2.1.2"
   },
