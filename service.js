@@ -8,7 +8,7 @@ module.exports = async function () {
   TrackPlayer.addEventListener(Event.RemotePause, () => {
     TrackPlayer.pause();
   });
-  TrackPlayer.addEventListener(Event.RemoteNext, async () => {
+  TrackPlayer.addEventListener('remote-next', async () => {
     console.log('-----> next song');
     await TrackPlayer.skipToNext();
   });
